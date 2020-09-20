@@ -2,4 +2,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class ChatUser(AbstractUser):
-    pass
+
+
+    def __str__(self):
+        return f'user_{self.id}'
