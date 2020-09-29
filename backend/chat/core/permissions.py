@@ -1,8 +1,6 @@
-from rest_framework.permissions import BasePermission
-from .models import Dialog
+from .permission_mixin import BaseDinamicPermission
 
-
-class IsDialogParticipant(BasePermission):
+class IsDialogParticipant(BaseDinamicPermission):
 
     def has_object_permission(self, request, view, obj):
         return request.user in obj.users.all()

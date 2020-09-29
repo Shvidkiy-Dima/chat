@@ -1,72 +1,58 @@
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from .permissions import IsDialogParticipant
 from .models import Dialog, Message
-from .serializers import DialogSerializer, DialogSerializerFull, MessageSerializer
-from django.contrib.auth import get_user_model
+from .serializers import DialogSerializer, MessageSerializer
+from .filters import MessageFilter
+from chat_user.models import UserModel
+
 
 class DialogViewSet(mixins.RetrieveModelMixin,
                     mixins.ListModelMixin,
                     GenericViewSet):
     queryset = Dialog.objects.all()
     serializer_class = DialogSerializer
-    # permission_classes = [IsAuthenticated, IsDialogParticipant]
+    permission_classes = [IsAuthenticated, IsDialogParticipant]
 
-    # def get_queryset(self):
-    #     return self.request.user.dialogs.all()
+    def get_queryset(self):
+        return self.request.user.get_my_dialogs()
 
-    @action(detail=False, methods=['get'])
-    def get_dialog_with_user(self, request):
-        another_user = get_user_model().objects.get(id=request.query_params['another_user_id'])
-        dialog = Dialog.objects.filter(users__in=[request.user]).filter(users__in=[another_user])
-        if not dialog:
-            return Response({'status': 'new'})
+    @action(detail=False, methods=['post'])
+    def start_dialog_with_user(self, request):
 
-        dialog = DialogSerializer(dialog.first())
+        # TODO: Will need to delete Dialogs that dont have msgs during several weeks
+
+        another_user = UserModel.objects.get(id=request.data['user_id'])
+        dialog = Dialog.objects.get_or_create_dialog(request.user, another_user)
+        dialog = DialogSerializer(dialog)
         return Response(dialog.data)
 
-    @action(detail=False, methods=['post'])
-    def initialize_dialog(self, request):
-        another_user_id = request.data['another_user_id']
-        another_user = get_user_model().objects.get(id=another_user_id)
-        user = request.user
 
-        if Dialog.objects.filter(users__in=[request.user]).filter(users__in=[another_user]).exists():
-            return Response({'err': 'd exists'}, status=status.HTTP_400_BAD_REQUEST)
+def MsgPermCallback(req, view):
+    dialog_id = view.kwargs['dialog']
+    dialog = Dialog.objects.get(id=dialog_id)
+    return req.user in dialog.users.all()
 
-        dialog = Dialog.objects.create()
-        dialog.users.add(user)
-        dialog.users.add(another_user)
 
-        data = {'dialog': dialog,
-                'author': user,
-                'text': request.data.get('text')
-                }
-        res = self._create_message(data)
-        if not status.is_success(res.status_code):
-            dialog.delete()
+class MessageViewSet(mixins.CreateModelMixin,
+                     mixins.ListModelMixin,
+                     GenericViewSet):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
+    filterset_class = MessageFilter
+    permission_classes = [IsAuthenticated,
+                          IsDialogParticipant(callback=MsgPermCallback)]
 
-        return res
+    def filter_queryset(self, queryset):
+        qs = super().filter_queryset(queryset)
+        for m in qs.exclude(who_viewed_it=self.request.user).iterator():
+            m.who_viewed_it.add(self.request.user)
 
-    @action(detail=False, methods=['post'])
-    def create_message(self, request):
-        data = {'dialog': self.get_object(),
-                'author': request.user,
-                'text': request.data.get('text')
-                }
-        return self._create_message(data)
+        return qs
 
-    def _create_message(self, data):
-        message = MessageSerializer(data=data)
-        if message.is_valid():
-            message.save()
-            return Response(message.data, status=status.HTTP_201_CREATED)
+    def perform_create(self, serializer):
+        return serializer.save(author=self.request.user)
 
-        return Response(message.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_serializer_class(self):
-        return DialogSerializerFull if self.detail else DialogSerializer

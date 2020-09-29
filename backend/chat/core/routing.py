@@ -1,7 +1,13 @@
+from django.urls import path, include
 from rest_framework.routers import SimpleRouter
-from .views import DialogViewSet
+from .views import DialogViewSet, MessageViewSet
 
-router = SimpleRouter()
-router.register('dialog', DialogViewSet)
+dialog_router = SimpleRouter()
+message_router = SimpleRouter()
+dialog_router.register('dialog', DialogViewSet)
+message_router.register('message', MessageViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('dialog/<int:dialog>/', include(message_router.urls)),
+    path('', include(dialog_router.urls)),
+]
