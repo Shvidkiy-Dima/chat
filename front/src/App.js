@@ -1,5 +1,5 @@
 import React from 'react'
-import Auth from './components/auth'
+import Dispatch from './components/dispatch'
 import WebSocketConnection from './utils/ws'
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
   console.log('APP')
 
   return (
-           <Auth ws={ws}/>
+           <Dispatch ws={ws}/>
     )
 }
 

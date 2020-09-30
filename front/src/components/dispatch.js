@@ -1,11 +1,11 @@
 import React from 'react'
 import Main from './main'
-import Login from './login'
+import Auth from './auth/auth'
 import Request from '../utils/request'
 import Context from '../utils/context'
 
 
-export default function Auth({ws}){
+export default function Dispatch({ws}){
   let [user, setUser] = React.useState({})
   let [is_authorized, setAuthBool] = React.useState(null)
 
@@ -59,8 +59,9 @@ export default function Auth({ws}){
       {is_authorized === null ?
             <div/>: (
             is_authorized ?
+
               <Main logout={logout} user={user}/>:
-              <Login authorize={authorize}/>
+              <Auth authorize={authorize}/>
             )
        }
       </div>

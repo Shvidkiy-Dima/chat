@@ -1,13 +1,18 @@
 import React from 'react'
-import {InputHook} from '../utils/hooks'
+import {InputHook} from '../../utils/hooks'
 import axios from 'axios'
 
-export default function Login({authorize}){
+
+export default function LoginForm({authorize, setUseLoginForm}){
+
     let name_input = InputHook('')
     let pass_input = InputHook('')
+    let [error, setError] = React.useState('')
 
-    function DoLogin(event){
+
+   function DoLogin(event){
       event.preventDefault()
+      setError('')
       axios.post(`/auth/jwt/create/`,
         {username: name_input.value, password: pass_input.value}).then(
       (res) => {
@@ -15,36 +20,53 @@ export default function Login({authorize}){
         sessionStorage.setItem('refresh', res.data.refresh)
         authorize(true)
       },(err)=>{
-        console.log(err)
+             setError(err.response ? err.response.data.detail : err.message)
+
+
       });
 
     }
 
 
     return (
-<div className="col-md-6">
+
         <form onSubmit={DoLogin}>
-                <h3>Sign In</h3>
+                <h3>Login</h3>
                 <div className="form-group">
-                    <label>Username</label>
                     <input  placeholder="Enter username"
                     type="text"
                     className="form-control"
+                    required={true}
                     name="username"
                     {...name_input.el}/>
                 </div>
 
                 <div className="form-group">
-                    <label>Password</label>
                     <input type="password"
                     className="form-control"
                     placeholder="Enter password"
+                    required={true}
                     name="password"
                     {...pass_input.el}/>
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <button type="submit" className="btn btn-sm btn-primary btn-block text-uppercase">Sing in</button>
+                 <button class="btn btn-sm" onClick={()=>setUseLoginForm(false)}>Registration</button>
+
+
+        {error ?
+          <small id="passwordHelp" class="text-danger">
+                {error}
+          </small>
+        :
+        <p/>
+        }
             </form>
-          Registration
-      </div>
+
+
+
+
     )
+
+
+
 }

@@ -16,20 +16,18 @@ export default function ContentContainer(){
       msgs.data.push(data)
       setMessages({data: msgs.data, next: msgs.next})
      }
-      else {
-        request({method: 'GET', url: '/dialog/' + data.dialog + '/'},
+     request({method: 'GET', url: '/dialog/' + data.dialog + '/'},
          (res)=>{
             let filtered_dialogs = dialogs.data.filter((dialog)=>{
                 if (dialog.id !== res.data.id){
                     return true
                 }
             })
-
-            filtered_dialogs.push(res.data)
+            filtered_dialogs.unshift(res.data)
             setDialogs({data: filtered_dialogs, next: dialogs.next})
 
          })
-      }
+
 
   }
 

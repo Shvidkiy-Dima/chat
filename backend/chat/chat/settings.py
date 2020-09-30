@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'chat.middleware.UserActivityMiddleware',
 ]
 
 ROOT_URLCONF = 'chat.urls'
@@ -170,3 +171,5 @@ ACCESS_TOKEN_LIFETIME = timedelta(minutes=60)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/media')
 MEDIA_URL = '/media/'
+
+USER_ONLINE_DELTA = timedelta(minutes=5)

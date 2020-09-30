@@ -1,18 +1,20 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
-from django.db.models import Count, ImageField
+from django.db.models import Count, ImageField, DateTimeField
+from django.utils import timezone
+from django.conf import settings
 from .utils import make_thumbnail
 
 
 class ChatUser(AbstractUser):
     image = ImageField(upload_to='user_image/', default='default.jpeg')
+    last_activity = DateTimeField(default=timezone.now)
 
     @classmethod
     def from_db(cls, db, field_names, values):
         instance = super().from_db(db, field_names, values)
         instance._image_value = values[field_names.index('image')]
         return instance
-
 
     def save(self, *args, **kwargs):
         if not self._state.adding and self._image_value != self.image:
@@ -21,11 +23,13 @@ class ChatUser(AbstractUser):
 
         return super().save(*args, **kwargs)
 
-
-
     def get_my_dialogs(self):
         dialogs = self.dialogs.all()
         return dialogs.annotate(count_msgs=Count('messages')).filter(count_msgs__gte=1).distinct()
+
+    def is_online(self):
+        delta = settings.USER_ONLINE_DELTA
+        return (timezone.now() - self.last_activity) < delta
 
     def __str__(self):
         return f'user_{self.id}'

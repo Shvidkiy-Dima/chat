@@ -21,7 +21,7 @@ class Dialog(models.Model):
     objects = DialogManager()
 
     def get_last_message(self):
-        return self.messages.last()
+        return self.messages.first()
 
     class Meta:
         ordering = ['-last_change']

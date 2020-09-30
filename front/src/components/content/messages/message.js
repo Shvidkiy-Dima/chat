@@ -6,7 +6,7 @@ export default function Message({msg}){
         return (
 
        <li class="d-flex justify-content-left mt-2 bg-white">
-              <img src={msg.author.image} alt="avatar"  style={{'max-height': '50px'}}  class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1"/>
+              <img src={msg.author.image} alt="avatar"   class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1"/>
               <div class="chat-body white p-3 ml-2 z-depth-1">
                 <div class="header">
                   <strong class="primary-font">{msg.author.username}</strong>
