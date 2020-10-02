@@ -1,10 +1,8 @@
-from rest_framework.serializers import ImageField, SerializerMethodField
-from djoser.serializers import UserCreateSerializer
+from rest_framework.serializers import ImageField, SerializerMethodField, ModelSerializer
 from .models import ChatUser
 
 
-class ChatUserSerializer(UserCreateSerializer):
-    image = ImageField(required=False)
+class ChatUserSerializer(ModelSerializer):
     is_online = SerializerMethodField()
 
     def get_is_online(self, user):
@@ -12,4 +10,4 @@ class ChatUserSerializer(UserCreateSerializer):
 
     class Meta:
         model = ChatUser
-        fields = ['username', 'id', 'image', 'password', 'is_online']
+        fields = ['username', 'id', 'image', 'is_online']

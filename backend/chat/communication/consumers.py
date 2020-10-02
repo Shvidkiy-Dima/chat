@@ -5,8 +5,11 @@ import json
 
 class BaseMessageConsumer(AsyncJsonWebsocketConsumer):
 
-    async def connect(self):
+    def __init__(self, *args, **kwargs):
         self.group_name = None
+        super().__init__(*args, **kwargs)
+
+    async def connect(self):
         await self.accept()
 
     async def disconnect(self, code):

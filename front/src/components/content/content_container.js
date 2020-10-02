@@ -12,7 +12,7 @@ export default function ContentContainer(){
   let {ws, request} = React.useContext(Context)
 
   function GetMessageFromWS(data){
-    if (current_dialog == data.dialog){
+    if (current_dialog.id == data.dialog){
       msgs.data.push(data)
       setMessages({data: msgs.data, next: msgs.next})
      }
@@ -33,7 +33,7 @@ export default function ContentContainer(){
 
   function UnviewedMessages(){
         let patch_dialogs = dialogs.data.map((dialog)=>{
-                                if (dialog.id === current_dialog){
+                                if (dialog.id === current_dialog.id){
                                     dialog.unviewed_messages = 0
                                 }
                                 return dialog

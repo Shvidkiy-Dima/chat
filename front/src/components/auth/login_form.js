@@ -13,7 +13,7 @@ export default function LoginForm({authorize, setUseLoginForm}){
    function DoLogin(event){
       event.preventDefault()
       setError('')
-      axios.post(`/auth/jwt/create/`,
+      axios.post('/auth/jwt/create/',
         {username: name_input.value, password: pass_input.value}).then(
       (res) => {
         sessionStorage.setItem('access', res.data.access)

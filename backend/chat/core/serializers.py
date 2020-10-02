@@ -1,7 +1,8 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, IntegerField
 from .models import Dialog, Message
 from .fileds import RequestMethodField
 from chat_user.serializers import ChatUserSerializer
+from django.conf import settings
 
 
 class MessageSerializer(ModelSerializer):
@@ -18,6 +19,7 @@ class DialogSerializer(ModelSerializer):
     users = ChatUserSerializer(many=True, read_only=True)
     another_user = RequestMethodField()
     unviewed_messages = RequestMethodField()
+    max_length_message = IntegerField(default=settings.MAX_LENGTH_MESSAGE)
 
     def get_unviewed_messages(self, dialog, request):
         print(dialog.messages.first().who_viewed_it.all())
@@ -29,4 +31,5 @@ class DialogSerializer(ModelSerializer):
 
     class Meta:
         model = Dialog
-        fields = ['last_message', 'users', 'messages', 'id', 'another_user', 'unviewed_messages']
+        fields = ['last_message', 'users', 'messages', 'id',
+                  'another_user', 'unviewed_messages', 'max_length_message']

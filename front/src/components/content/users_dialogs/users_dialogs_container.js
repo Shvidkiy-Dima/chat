@@ -36,7 +36,7 @@ export default function UsersDialogsContainer({set_current_dialog, dialogs, setD
     }
   return (
        <div class="col-md-6 col-xl-4 px-0 bg-white">
-        <div class="white z-depth-1 px-2 pt-3 pb-0 members-panel-1 scrollbar-light-blue" onScroll={CheckScroll}>
+        <div class="white z-depth-1 pt-3 pb-0 members-panel-1 scrollbar-light-blue" onScroll={CheckScroll}>
           <ul class="list-unstyled friend-list">
 
               <UsersSearch setUsers={setUsers}/>

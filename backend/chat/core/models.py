@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from chat_user.models import UserModel
 
 
@@ -29,7 +30,7 @@ class Dialog(models.Model):
 
 class Message(models.Model):
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, related_name='messages')
-    text = models.CharField(max_length=512)
+    text = models.CharField(max_length=settings.MAX_LENGTH_MESSAGE)
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='my_msgs')
     who_viewed_it = models.ManyToManyField(UserModel)
     created = models.DateTimeField(default=timezone.now)

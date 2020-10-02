@@ -1,29 +1,27 @@
 import React from 'react'
-import { Media } from 'react-bootstrap'
 import Moment from 'react-moment';
 
 export default function Dialog({dialog, set_current_dialog}){
 
 
     function OpenDialog(){
-        set_current_dialog(dialog.id)
+        set_current_dialog(dialog)
     }
 
     return (
 
-       <li class="p-2" onClick={OpenDialog}>
+       <li class="py-2" onClick={OpenDialog}>
               <a class="d-flex justify-content-between" >
               <div class='d-flex'>
                 <img src={dialog.another_user.image} alt="avatar" style={{'height': '50px', 'width': '50px', 'border-radius': '50%'}} class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"/>
                 <div class="text-small float-left">
                   <strong>{dialog.another_user.username}</strong>
-                  <p class="last-message text-muted">{dialog.last_message.text}</p>
+                  <p style={{"font-size": '14px'}} class="last-message text-muted">{dialog.last_message.text.slice(0, 50)}{dialog.last_message.text.length > 50 ? '...': ''}</p>
                 </div>
                 </div>
-                <div class="chat-footer">
+                <div class="chat-footer d-flex">
                   <small class="text-muted ml-3 ">
                    <Moment fromNow >{dialog.last_message.created}</Moment>
-                    |
                   </small>
                                    {dialog.another_user.is_online ?
                                     <small class="text-success">On</small>

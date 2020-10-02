@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'chat.middleware.UserActivityMiddleware',
+    'chat.middleware.GlobarRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'chat.urls'
@@ -89,9 +90,17 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'chat',
+        'USER': 'admin',
+        'PASSWORD': '1996',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
+
     }
+
 }
 
 
@@ -173,3 +182,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/media')
 MEDIA_URL = '/media/'
 
 USER_ONLINE_DELTA = timedelta(minutes=5)
+MAX_LENGTH_MESSAGE = 512
+DEFAULT_IMAGE = 'default/default.jpeg'
+
+USER_IMAGES_DIR = 'user_image'
+TEST_IMAGE = os.path.join(MEDIA_ROOT, 'tests/test.jpeg')
+DEL_OLD_IMAGES = True

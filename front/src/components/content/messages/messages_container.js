@@ -24,7 +24,7 @@ export default function MessagesContainer({current_dialog, msgs, setMessages}){
             return
        }
         setLoader(true)
-       _GetMessages('/dialog/' + current_dialog + '/message/',
+       _GetMessages('/dialog/' + current_dialog.id + '/message/',
             (res)=>{
                 setLoader(false)
                 setMessages({data: res.data['results'].reverse(), next: res.data['next']})
@@ -71,7 +71,7 @@ export default function MessagesContainer({current_dialog, msgs, setMessages}){
                 return <Message msg={msg} key={i} />
               })}
         </ul>
-            { current_dialog !== null ? <SendMessage dialog_id={current_dialog} />: <div/> }
+            { current_dialog !== null ? <SendMessage dialog={current_dialog} />: <div/> }
        </div>
        :
         <Loader/>

@@ -8,7 +8,7 @@ export default function User({user, set_current_dialog}){
       function StartDialogWithUser(){
                 request({method: 'post', url: '/dialog/start_dialog_with_user/', data: {user_id: user.id}},
                 (res)=>{
-                    set_current_dialog(res.data.id)
+                    set_current_dialog(res.data)
                 })
     }
 

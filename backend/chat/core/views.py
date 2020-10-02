@@ -47,6 +47,8 @@ class MessageViewSet(mixins.CreateModelMixin,
                           IsDialogParticipant(callback=MsgPermCallback)]
 
     def filter_queryset(self, queryset):
+        ## Change data when we use GET that is not the best practice
+
         qs = super().filter_queryset(queryset)
         for m in qs.exclude(who_viewed_it=self.request.user).iterator():
             m.who_viewed_it.add(self.request.user)
