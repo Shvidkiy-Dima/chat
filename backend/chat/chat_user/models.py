@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.conf import settings
 from .utils import make_thumbnail, remove_img
 
+
 class ChatUser(AbstractUser):
     image = ImageField(upload_to=settings.USER_IMAGES_DIR, default=settings.DEFAULT_IMAGE)
     last_activity = DateTimeField(default=timezone.now)

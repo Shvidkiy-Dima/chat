@@ -73,6 +73,7 @@ class TestDialogView(LoginTestCase):
 
         # dialog with current and another user was created
         res = self.client.post('/dialog/start_dialog_with_user/', data={'user_id': another_user.id})
+        print(res.data)
         self.assertTrue(status.is_success(res.status_code))
         self.assertTrue(Dialog.objects.filter(id=res.data['id']).exists())
         d = Dialog.objects.get(id=res.data['id'])

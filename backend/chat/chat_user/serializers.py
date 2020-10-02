@@ -1,4 +1,4 @@
-from rest_framework.serializers import ImageField, SerializerMethodField, ModelSerializer
+from rest_framework.serializers import SerializerMethodField, ModelSerializer
 from .models import ChatUser
 
 

@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer, IntegerField
+from django.conf import settings
 from .models import Dialog, Message
 from .fileds import RequestMethodField
 from chat_user.serializers import ChatUserSerializer
-from django.conf import settings
 
 
 class MessageSerializer(ModelSerializer):

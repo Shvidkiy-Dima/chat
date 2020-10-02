@@ -8,6 +8,7 @@ from .models import Dialog, Message
 from .serializers import DialogSerializer, MessageSerializer
 from .filters import MessageFilter
 from chat_user.models import UserModel
+from .utils import cached
 
 
 class DialogViewSet(mixins.RetrieveModelMixin,
@@ -21,6 +22,7 @@ class DialogViewSet(mixins.RetrieveModelMixin,
         return self.request.user.get_my_dialogs()
 
     @action(detail=False, methods=['post'])
+    @cached(10*60)
     def start_dialog_with_user(self, request):
 
         # TODO: Will need to delete Dialogs that dont have msgs during several weeks

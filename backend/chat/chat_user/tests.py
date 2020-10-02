@@ -1,13 +1,14 @@
-from django.conf import settings
-from core.tests import LoginTestCase
 from os import path, listdir
 from tempfile import TemporaryDirectory
-from chat_user.serializers import ChatUserSerializer
+from django.conf import settings
 from djoser.serializers import UserCreateSerializer
-from core.utils import random_string
 from rest_framework import status
-from chat_user.models import UserModel
 from django.utils import timezone
+from core.tests import LoginTestCase
+from chat_user.serializers import ChatUserSerializer
+from core.utils import random_string
+from chat_user.models import UserModel
+
 
 
 class TestUser(LoginTestCase):
