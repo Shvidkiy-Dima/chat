@@ -1,5 +1,5 @@
 from django.http.request import HttpRequest
-
+from urllib.parse import urlparse, uses_netloc
 
 class _GlobalRequest:
 
@@ -16,5 +16,14 @@ class _GlobalRequest:
 
         return getattr(self.request, item)
 
+
+def parse_db_url(url, protocol='mysql'):
+    uses_netloc.append(protocol)
+    url = urlparse(url)
+    return {'DB_NAME': url.path[1:],
+            'DB_USER': url.username,
+            'DB_PASSWORD': url.password,
+            'DB_HOST': url.hostname,
+            'DB_PORT': url.port}
 
 Grequest = _GlobalRequest()

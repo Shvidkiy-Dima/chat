@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import django_heroku
 import os
+import django_heroku
 from datetime import timedelta
-from core.utils import random_string
+from django.core.management.utils import get_random_secret_key
+from chat.utils import parse_db_url
 
 DEBUG = False if os.getenv('ENV') == 'PROD' else True
 
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', random_string())
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -90,15 +91,30 @@ TEMPLATES = [
 WSGI_APPLICATION = 'chat.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+if not DEBUG and os.getenv('DB_URL', False):
+    for k, v in parse_db_url(os.getenv('DB_URL')):
+        os.putenv(k, v)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
-}
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME', 'chat'),
+        'USER': os.getenv('DB_USER', 'admin'),
+        'PASSWORD':  os.getenv('DB_PASSWORD', '1996'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', None),
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        }
 
+    }
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -134,29 +150,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-django_heroku.settings(locals())
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_DIRS = []
-
 
 # CHANNELS
 
 ASGI_APPLICATION = 'chat.routing.application'
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [os.getenv('REDIS_URL', ('127.0.0.1', 6379))],
+        },
+    },
+}
 
 # REST
 
@@ -178,8 +183,10 @@ SIMPLE_JWT = {
 }
 
 
+django_heroku.settings(locals())
+
 # CORS
-CORS_ORIGIN_ALLOW_ALL = True if DEBUG else False
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # MEDIA
@@ -193,7 +200,11 @@ DEL_OLD_IMAGES = True
 USER_ONLINE_DELTA = timedelta(minutes=5)
 MAX_LENGTH_MESSAGE = 512
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-
-
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = []
 
