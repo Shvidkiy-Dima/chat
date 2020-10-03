@@ -94,17 +94,9 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'chat',
-        'USER': 'admin',
-        'PASSWORD': '1996',
-        'TEST': {
-            'CHARSET': 'utf8',
-            'COLLATION': 'utf8_general_ci',
-        }
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
-
 }
 
 
