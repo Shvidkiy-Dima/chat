@@ -26,11 +26,11 @@ class WSTest(LoginTestCase):
         msg_from_user, msg_from_user1 = [await comm.receive_json_from() for comm in users_comm]
 
         # Check that current user and user receive a new created message
-        self.assertEqual(msg_from_user['data'], res.data)
-        self.assertEqual(msg_from_user1['data'], res.data)
+        self.assertEqual(msg_from_user['data'], res.data, 'user receive wrong msg data')
+        self.assertEqual(msg_from_user1['data'], res.data, 'user receive wrong msg data')
 
         # check that another_user didnt recieve message
-        self.assertTrue(await another_user_comm.receive_nothing())
+        self.assertTrue(await another_user_comm.receive_nothing(), 'user receive msg')
 
     async def test_send_message(self):
         user1 = self.users[0]

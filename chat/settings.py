@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import django_heroku
 import os
 from datetime import timedelta
+from core.utils import random_string
 
+DEBUG = False if os.getenv('ENV') == 'PROD' else True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,12 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't%6f*^^*9m52j@9zowxhowrn3%g8wf9ela1scus@(t(i75_y)b'
+SECRET_KEY = os.getenv('SECRET_KEY', random_string())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split()
 
 
 # Application definition
@@ -90,7 +92,6 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -141,10 +142,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+django_heroku.settings(locals())
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = []
+
+
+# CHANNELS
 
 ASGI_APPLICATION = 'chat.routing.application'
 CHANNEL_LAYERS = {
@@ -156,6 +166,7 @@ CHANNEL_LAYERS = {
     },
 }
 
+# REST
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -174,26 +185,23 @@ SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
 }
 
-# CORS !! DEBUG
-CORS_ORIGIN_ALLOW_ALL = True
-ACCESS_TOKEN_LIFETIME = timedelta(minutes=60)
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True if DEBUG else False
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/media')
+# MEDIA
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
 MEDIA_URL = '/media/'
-
-USER_ONLINE_DELTA = timedelta(minutes=5)
-MAX_LENGTH_MESSAGE = 512
 DEFAULT_IMAGE = 'default/default.jpeg'
-
 USER_IMAGES_DIR = 'user_image'
-TEST_IMAGE = os.path.join(MEDIA_ROOT, 'tests/test.jpeg')
 DEL_OLD_IMAGES = True
 
-django_heroku.settings(locals())
+# STUFF
+USER_ONLINE_DELTA = timedelta(minutes=5)
+MAX_LENGTH_MESSAGE = 512
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_DIRS = []
+
+
+

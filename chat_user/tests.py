@@ -10,7 +10,6 @@ from core.utils import random_string
 from chat_user.models import UserModel
 
 
-
 class TestUser(LoginTestCase):
     users_count = 0
     need_to_login = True
@@ -34,23 +33,24 @@ class TestUser(LoginTestCase):
 
             # Check that we changed image
             imgs_pahts = self._get_images_paths()
-            self.assertTrue(len(imgs_pahts) == 1)
+            self.assertTrue(len(imgs_pahts) == 1, f'Awaited 1 img but got {len(imgs_pahts)}')
             image_path = imgs_pahts.pop()
-            self.assertTrue(image_path == self.current_user.image.path)
+            self.assertTrue(image_path == self.current_user.image.path, 'Didnt change image')
 
             # Check that we didnt delete default image
-            self.assertTrue(path.exists(default_image_path))
+            self.assertTrue(path.exists(default_image_path), 'Default image was deleted')
 
             # Check that we really made thumbnail
             test_img.seek(0)
-            self.assertTrue(len(test_img.read()) > (self.current_user.image.size * 4))
+            self.assertTrue(len(test_img.read()) > (self.current_user.image.size * 4),
+                            'Didnt make thumbnail')
 
             test_img.seek(0)
             self.client.patch(f'/users/{self.current_user.id}/', data={'image': test_img})
             self.current_user.refresh_from_db()
 
             # Check that old image ( not default) was deleted
-            self.assertFalse(path.exists(image_path))
+            self.assertFalse(path.exists(image_path), 'Previous img was not deleted')
 
             #Check that we change user image again
             new_imgs_pahts = self._get_images_paths()
@@ -58,13 +58,13 @@ class TestUser(LoginTestCase):
             new_img_paht = new_imgs_pahts.pop()
             self.assertTrue(new_img_paht == self.current_user.image.path)
 
-
     def test_retrieve(self):
         self.current_user.refresh_from_db()
         res = self.client.get('/users/me/')
+        data = ChatUserSerializer(self.current_user,
+                                  context={'request': res.wsgi_request}).data
 
-        self.assertEqual(res.data, ChatUserSerializer(self.current_user,
-                                                 context={'request': res.wsgi_request}).data)
+        self.assertEqual(res.data, data, 'Got wrong serialized data')
 
     def test_create(self):
         self.logout()
@@ -72,7 +72,7 @@ class TestUser(LoginTestCase):
                                                 'password': random_string()})
         self.assertTrue(res.status_code == status.HTTP_201_CREATED)
         new_user = UserModel.objects.get(id=res.data['id'])
-        self.assertEqual(res.data, UserCreateSerializer(new_user).data)
+        self.assertEqual(res.data, UserCreateSerializer(new_user).data, 'Got wrong serialized data')
         self.login()
 
     def test_is_online(self):
