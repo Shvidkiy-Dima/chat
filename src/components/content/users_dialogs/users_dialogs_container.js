@@ -3,7 +3,6 @@ import Context from '../../../utils/context'
 import Dialog from './dialog'
 import User from './user'
 import UsersSearch from './users_search'
-import { Col } from 'react-bootstrap'
 
 export default function UsersDialogsContainer({set_current_dialog, dialogs, setDialogs, users, setUsers}){
 

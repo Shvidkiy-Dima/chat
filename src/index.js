@@ -6,7 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-axios.defaults.baseURL = 'http://localhost:8000'
 
 ReactDOM.render(
     <App />,

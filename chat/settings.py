@@ -183,7 +183,6 @@ SIMPLE_JWT = {
 }
 
 
-django_heroku.settings(locals())
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
@@ -202,6 +201,9 @@ MAX_LENGTH_MESSAGE = 512
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+django_heroku.settings(locals())
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')

@@ -3,7 +3,6 @@ import Message from './message'
 import SendMessage from './send_message'
 import Context from '../../../utils/context'
 import Loader from '../../loader'
-import { Col } from 'react-bootstrap'
 
 export default function MessagesContainer({current_dialog, msgs, setMessages}){
   let [loader, setLoader] = React.useState(false)

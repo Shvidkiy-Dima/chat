@@ -1,6 +1,5 @@
 import React from 'react'
 import Context from '../../../utils/context'
-import { Media } from 'react-bootstrap'
 
 export default function User({user, set_current_dialog}){
       let {request} = React.useContext(Context)

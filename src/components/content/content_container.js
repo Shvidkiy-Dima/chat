@@ -2,7 +2,6 @@ import React from 'react'
 import UsersDialogsContainer from './users_dialogs/users_dialogs_container'
 import MessagesContainer from './messages/messages_container'
 import Context from '../../utils/context'
-import { Container, Col, Row } from 'react-bootstrap'
 
 export default function ContentContainer(){
   let [current_dialog, setCurrentDialog] = React.useState(null)
