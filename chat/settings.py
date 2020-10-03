@@ -95,8 +95,8 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.getenv('DB_URL', False):
-    for k, v in parse_db_url(os.getenv('DB_URL')):
+if os.getenv('DB_URL', False) and DEBUG is False:
+    for k, v in parse_db_url(os.getenv('DB_URL')).items():
         os.putenv(k, v)
 
 DATABASES = {
