@@ -26,8 +26,6 @@ export default function LoginForm({authorize, setUseLoginForm, login_prompt}){
       });
 
     }
-
-
     return (
 
         <form onSubmit={DoLogin}>
