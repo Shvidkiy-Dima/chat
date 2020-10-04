@@ -43,12 +43,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-    - name: Test 
+    - name: Run migrations
+      run: |
+        python3 manage.py migrate
+    - name: Test
       run: |
         python3 manage.py test
-    - name: Run migrations
-      run: python manage.py migrate
       env:
         DB_PORT: 3306
         DB_HOST: 127.0.0.1
