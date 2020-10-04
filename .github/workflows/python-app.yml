@@ -12,14 +12,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
-      mysql:
+      db:
         image: mysql
         ports:
-          - 3306
+          - 3306:3306
         env:
-          MYSQL_USER: admin
           MYSQL_PASSWORD: 1996
-          MYSQL_DATABASE: chat
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
 
     steps:
