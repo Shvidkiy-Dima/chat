@@ -40,3 +40,4 @@ jobs:
         python3 manage.py test
       env:
         DB_PORT: 3306
+        DB_HOST: 127.0.0.1
