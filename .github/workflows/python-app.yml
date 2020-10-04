@@ -18,8 +18,8 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_USER: admin
-          MYSQL_PASSWORD: 1996
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
           MYSQL_DATABASE: chat
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
 
