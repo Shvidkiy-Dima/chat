@@ -10,9 +10,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     services:
       db:
         image: mysql
@@ -38,4 +36,4 @@ jobs:
         python3 manage.py test
 
       env:
-        DB_HOST: mysql
+        DB_HOST: db
