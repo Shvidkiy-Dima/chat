@@ -48,7 +48,7 @@ jobs:
         sudo apt-get install libmysqlclient-dev
     - name: Test
       run: |
-        python3 manage.py test --keepdb
+        python3 manage.py test
       env:
         DB_PORT: 3306
         DB_HOST: 127.0.0.1
