@@ -1,0 +1,45 @@
+{
+  "name": "Chat",
+  "env": {
+    "DISABLE_COLLECTSTATIC": {
+      "description": "Disables Heroku collectstatic",
+      "value": "1"
+    },
+    "AUTO_MIGRATE": {
+      "description": "Heroku setting to run Django migrate automatically (it is run by bin/post_compile)",
+      "value": "1"
+    },
+    "ENV": {
+      "value": "PROD"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [
+    {
+      "plan": "cleardb:ignite"
+    },
+    {
+      "plan": "heroku-redis:hobby-dev"
+    },
+    {
+      "plan": "cloudinary:starter"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
