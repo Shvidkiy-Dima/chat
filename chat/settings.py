@@ -216,9 +216,10 @@ USER_IMAGES_DIR = 'user_image'
 DEL_OLD_IMAGES = False
 
 STATIC_URL = '/static/'
-DEFAULT_IMAGE = '/static/default/default.jpeg'
+DEFAULT_IMAGE = '/static/default.jpeg'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build', 'static')]
+STATICFILES_DIRS = [] if os.getenv('NO_BUILD') else [os.path.join(BASE_DIR, 'build', 'static')]
+WHITENOISE_USE_FINDERS = True
 
 django_heroku.settings(locals(), staticfiles=False, test_runner=False)
