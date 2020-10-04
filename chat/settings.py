@@ -13,7 +13,6 @@ import os
 import django_heroku
 from datetime import timedelta
 from django.core.management.utils import get_random_secret_key
-from chat.utils import parse_db_url
 
 DEBUG = False if os.getenv('ENV') == 'PROD' else True
 
@@ -96,11 +95,6 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-db_url = os.getenv('DB_URL') or os.getenv('CLEARDB_DATABASE_URL')
-if db_url and DEBUG is False:
-    for k, v in parse_db_url(os.getenv('DB_URL')).items():
-        os.putenv(k, v or '')
 
 DATABASES = {
     'default': {
@@ -222,5 +216,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [] if os.getenv('NO_BUILD') else [os.path.join(BASE_DIR, 'build', 'static')]
 WHITENOISE_USE_FINDERS = True
+
 
 django_heroku.settings(locals(), staticfiles=False, test_runner=False)
