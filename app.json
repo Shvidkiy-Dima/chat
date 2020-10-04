@@ -21,7 +21,8 @@
   },
   "addons": [
     {
-      "plan": "cleardb:ignite"
+      "plan": "cleardb:ignite",
+      "as": "DATABASE"
     },
     {
       "plan": "heroku-redis:hobby-dev"
