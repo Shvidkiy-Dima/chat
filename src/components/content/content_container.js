@@ -11,7 +11,7 @@ export default function ContentContainer(){
   let {ws, request} = React.useContext(Context)
 
   function GetMessageFromWS(data){
-    if (current_dialog.id == data.dialog){
+    if (current_dialog && current_dialog.id == data.dialog){
       msgs.data.push(data)
       setMessages({data: msgs.data, next: msgs.next})
      }
