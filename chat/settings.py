@@ -13,7 +13,6 @@ import os
 import django_heroku
 from datetime import timedelta
 from django.core.management.utils import get_random_secret_key
-from chat.utils import parse_db_url
 
 DEBUG = False if os.getenv('ENV') == 'PROD' else True
 
