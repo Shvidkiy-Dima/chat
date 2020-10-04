@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 if os.getenv('DB_URL', False) and DEBUG is False:
     for k, v in parse_db_url(os.getenv('DB_URL')).items():
         os.putenv(k, v or '')
-print(repr(os.getenv('DB_PORT', 'localhost')))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

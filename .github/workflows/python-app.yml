@@ -46,9 +46,14 @@ jobs:
     - name: Run migrations
       run: |
         python3 manage.py migrate
+      env:
+        DB_PORT: 3306
+        DB_HOST: 127.0.0.1
+        DB_USER: root
+        DB_PASSWORD: password
     - name: Test
       run: |
-        python3 manage.py test
+        python3 manage.py test --keepdb
       env:
         DB_PORT: 3306
         DB_HOST: 127.0.0.1
