@@ -40,4 +40,4 @@ jobs:
         DB_PORT: 3306
         DB_HOST: 127.0.0.1
         DB_USER: root
-        DB_PAWWORD: password
+        DB_PASSWORD: password
