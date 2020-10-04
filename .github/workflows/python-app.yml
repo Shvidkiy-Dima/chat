@@ -13,6 +13,7 @@ jobs:
       DB_HOST: 127.0.0.1
       DB_USER: root
       DB_PASSWORD: password
+      NO_BUILD: 1
     runs-on: ubuntu-latest
     services:
       db:
