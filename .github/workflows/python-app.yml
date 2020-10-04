@@ -16,7 +16,7 @@ jobs:
     services:
       db:
         image: mysql
-        environment:
+        env:
           MYSQL_USER: admin
           MYSQL_PASSWORD: 1996
           MYSQL_DATABASE: chat
