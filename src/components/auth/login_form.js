@@ -3,7 +3,7 @@ import {InputHook} from '../../utils/hooks'
 import axios from 'axios'
 
 
-export default function LoginForm({authorize, setUseLoginForm}){
+export default function LoginForm({authorize, setUseLoginForm, login_prompt}){
 
     let name_input = InputHook('')
     let pass_input = InputHook('')
@@ -31,7 +31,7 @@ export default function LoginForm({authorize, setUseLoginForm}){
     return (
 
         <form onSubmit={DoLogin}>
-                <h3>Login</h3>
+                <h3>{login_prompt}</h3>
                 <div className="form-group">
                     <input  placeholder="Enter username"
                     type="text"

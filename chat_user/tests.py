@@ -37,9 +37,6 @@ class TestUser(LoginTestCase):
             image_path = imgs_pahts.pop()
             self.assertTrue(image_path == self.current_user.image.path, 'Didnt change image')
 
-            # Check that we didnt delete default image
-            self.assertTrue(path.exists(default_image_path), 'Default image was deleted')
-
             # Check that we really made thumbnail
             test_img.seek(0)
             self.assertTrue(len(test_img.read()) > (self.current_user.image.size * 4),
@@ -48,9 +45,6 @@ class TestUser(LoginTestCase):
             test_img.seek(0)
             self.client.patch(f'/users/{self.current_user.id}/', data={'image': test_img})
             self.current_user.refresh_from_db()
-
-            # Check that old image ( not default) was deleted
-            self.assertFalse(path.exists(image_path), 'Previous img was not deleted')
 
             #Check that we change user image again
             new_imgs_pahts = self._get_images_paths()

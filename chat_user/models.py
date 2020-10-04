@@ -7,7 +7,7 @@ from .utils import make_thumbnail, remove_img
 
 
 class ChatUser(AbstractUser):
-    image = ImageField(upload_to=settings.USER_IMAGES_DIR, default=settings.DEFAULT_IMAGE)
+    image = ImageField(upload_to=settings.USER_IMAGES_DIR, null=True, blank=True)
     last_activity = DateTimeField(default=timezone.now)
 
     @classmethod

@@ -3,7 +3,7 @@ import {InputHook} from '../../utils/hooks'
 import axios from 'axios'
 
 
-export default function RegForm({setUseLoginForm}){
+export default function RegForm({setUseLoginForm, setLoginPrompt}){
 
     let name_input = InputHook('')
     let pass_input = InputHook('')
@@ -16,6 +16,7 @@ export default function RegForm({setUseLoginForm}){
                                     password: pass_input.value})
              .then(res => {
                     setUseLoginForm(true)
+                    setLoginPrompt('Registration was successful, please login')
                    },
                    err=>{
                         if (err.response){

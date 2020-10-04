@@ -6,7 +6,6 @@ from .filters import UsersFilter
 from .serializers import ChatUserSerializer
 
 
-
 class ChatUserViewSet(ChangeSerializerMixin, UserViewSet):
     filterset_class = UsersFilter
     permission_classes = [CurrentUserOrAdmin]

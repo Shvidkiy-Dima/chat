@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
 
     'rest_framework',
     'djoser',
@@ -189,11 +191,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 
 # MEDIA
-MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
-MEDIA_URL = '/media/'
-DEFAULT_IMAGE = 'default/default.jpeg'
-USER_IMAGES_DIR = 'user_image'
-DEL_OLD_IMAGES = True
 
 # STUFF
 USER_ONLINE_DELTA = timedelta(minutes=5)
@@ -202,11 +199,19 @@ MAX_LENGTH_MESSAGE = 512
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-django_heroku.settings(locals())
 
+if os.getenv('CLOUDINARY_URL') and DEBUG is False:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/local_media')
+MEDIA_URL = '/media/'
+USER_IMAGES_DIR = 'user_image'
+DEL_OLD_IMAGES = False
 
 STATIC_URL = '/static/'
+DEFAULT_IMAGE = '/static/default/default.jpeg'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'public/static')]
 
+django_heroku.settings(locals(), staticfiles=False)

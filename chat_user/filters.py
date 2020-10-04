@@ -4,11 +4,10 @@ from .models import ChatUser
 
 
 class UsersFilter(FilterSet):
-    username = CharFilter(field_name='username', lookup_expr='icontains')
+    username = CharFilter(field_name='username', method='filter_users')
 
-    def filter_queryset(self, queryset):
-        qs = super().filter_queryset(queryset)
-        return qs.exclude(id=self.request.user.id) if self.request.user.is_authenticated else qs
+    def filter_users(self, queryset, name, value):
+        return queryset.filter(username__icontains=value).exclude(id=self.request.user.id)
 
     class Meta:
         model = ChatUser
