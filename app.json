@@ -21,9 +21,6 @@
   },
   "addons": [
     {
-      "plan": "cleardb:ignite"
-    },
-    {
       "plan": "heroku-redis:hobby-dev"
     },
     {
