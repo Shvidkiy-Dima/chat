@@ -38,3 +38,5 @@ jobs:
     - name: Test 
       run: |
         python3 manage.py test
+      env:
+        DB_HOST: db
