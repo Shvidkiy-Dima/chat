@@ -24,7 +24,7 @@ class ChatUser(AbstractUser):
         if hasattr(self, '_old_img') and self._old_img != self.image:
             self._make_thumbnail(self.image)
 
-            if settings.DEL_OLD_IMAGES and self._old_img != settings.DEFAULT_IMAGE:
+            if settings.DEL_OLD_IMAGES and self._old_img:
                 remove_img(self._old_img)
 
         return super().save(*args, **kwargs)
