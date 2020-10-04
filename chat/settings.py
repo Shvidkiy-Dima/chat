@@ -216,7 +216,7 @@ USER_IMAGES_DIR = 'user_image'
 DEL_OLD_IMAGES = False
 
 STATIC_URL = '/static/'
-DEFAULT_IMAGE = '/static/default/default.jpeg'
+DEFAULT_IMAGE = '/static/default.jpeg'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [] if os.getenv('NO_BUILD') else [os.path.join(BASE_DIR, 'build', 'static')]
