@@ -6,13 +6,20 @@ name: Python application
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mysql
+        environment:
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: 1996
+          MYSQL_DATABASE: chat
 
     steps:
     - uses: actions/checkout@v2
@@ -29,3 +36,6 @@ jobs:
     - name: Test 
       run: |
         python3 manage.py test
+
+      env:
+        DB_HOST: mysql
