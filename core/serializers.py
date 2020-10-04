@@ -22,7 +22,6 @@ class DialogSerializer(ModelSerializer):
     max_length_message = IntegerField(default=settings.MAX_LENGTH_MESSAGE)
 
     def get_unviewed_messages(self, dialog, request):
-        print(dialog.messages.first().who_viewed_it.all())
         return dialog.messages.exclude(who_viewed_it=request.user).count()
 
     def get_another_user(self, dialog, request):

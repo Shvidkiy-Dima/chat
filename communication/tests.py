@@ -57,4 +57,7 @@ class WSTest(LoginTestCase):
         # Start dialog with user2 and create message in that dialog
         await self.check_message(user2, (communicator, communicator2), communicator1)
 
+        await communicator.disconnect()
+        await communicator1.disconnect()
+        await communicator2.disconnect()
 

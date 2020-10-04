@@ -13,7 +13,6 @@ def random_string(length=10):
 
 def get_uniq_key(req):
     key = req.path + req.user.username + str(req.data) + str(req.query_params)
-    print(key)
     hash_ = md5(key.encode())
     return hash_.hexdigest()
 
