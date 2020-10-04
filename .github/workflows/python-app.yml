@@ -28,4 +28,4 @@ jobs:
 
     - name: Test 
       run: |
-        python3 main.py test
+        python3 manage.py test
