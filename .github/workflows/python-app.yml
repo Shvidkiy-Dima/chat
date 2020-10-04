@@ -14,8 +14,6 @@ jobs:
     services:
       db:
         image: mysql
-        ports:
-          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_USER: admin
@@ -40,3 +38,4 @@ jobs:
         python3 manage.py test
       env:
         DB_PORT: 3306
+        DB_HOST: db
