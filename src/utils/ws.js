@@ -5,8 +5,9 @@ class WebSocketConnection {
         this.dispatch = {}
     }
 
-    connect(url){
+    connect(path){
     if (!this.connected) {
+        let url = ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + path
         this.ws = new WebSocket(url)
         this.ws.onopen = ()=> {
             this.connected = true

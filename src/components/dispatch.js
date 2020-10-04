@@ -32,8 +32,7 @@ export default function Dispatch({ws}){
   function ConnectWS(){
         if (is_authorized){
            console.log(is_authorized)
-           let ws_url = 'ws://localhost:8000/ws/chat/'
-           ws.connect(ws_url)
+           ws.connect('/ws/chat/')
            ws.event_subscribe()
         }
         else {
