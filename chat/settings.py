@@ -156,11 +156,18 @@ USE_TZ = True
 # CHANNELS
 
 ASGI_APPLICATION = 'chat.routing.application'
+
+REDIS_CREDS = os.getenv('REDIS_URL')
+
+REDIS_CREDS = REDIS_CREDS if REDIS_CREDS \
+    else ((os.getenv('REDIS_HOST', 'localhost'), os.getenv('REDIS_PORT', 6379)))
+
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.getenv('REDIS_URL', ('127.0.0.1', 6379))],
+            "hosts": [REDIS_CREDS],
         },
     },
 }
