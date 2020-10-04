@@ -18,9 +18,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: test_chat
-          MYSQL_USER: admin
-          MYSQL_PASSWORD: 1996
+          MYSQL_DATABASE: chat
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
 
       redis:
@@ -45,10 +43,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        sudo apt-get install libmysqlclient-dev
-    - name: Test
+    - name: Run migrations
       run: |
-        python3 manage.py test
+        python3 manage.py migrate
       env:
         DB_PORT: 3306
         DB_HOST: 127.0.0.1
+        DB_USER: root
+        DB_PASSWORD: password
+    - name: Test
+      run: |
+        python3 manage.py test --keepdb
+      env:
+        DB_PORT: 3306
+        DB_HOST: 127.0.0.1
+        DB_USER: root
+        DB_PASSWORD: password
