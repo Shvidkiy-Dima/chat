@@ -20,7 +20,6 @@ export default function UsersSearch({setUsers}){
         }
 
     function CloseSearch(){
-        console.log('CLOSE')
         setUsers({display_users: false, data: []})
         setShowClose(false)
         input.clear()
