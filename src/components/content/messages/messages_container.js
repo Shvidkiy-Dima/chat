@@ -56,7 +56,7 @@ export default function MessagesContainer({current_dialog, msgs, setMessages}){
   }
 
   React.useEffect(GetMessages, [current_dialog])
-    React.useEffect(Scroll, [msgs])
+  React.useEffect(Scroll, [msgs])
 
 
   return (
