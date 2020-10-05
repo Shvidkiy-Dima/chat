@@ -2,8 +2,10 @@ import React from 'react'
 import UsersDialogsContainer from './users_dialogs/users_dialogs_container'
 import MessagesContainer from './messages/messages_container'
 import Context from '../../utils/context'
+import ChatNavbar from './navbar/navbar'
 
-export default function ContentContainer(){
+
+export default function ContentContainer({user, logout}){
   let [current_dialog, setCurrentDialog] = React.useState(null)
   let [dialogs, setDialogs]  = React.useState({data: [], next: null})
   let [msgs, setMessages] = React.useState({data: [], next: null})
@@ -45,6 +47,8 @@ export default function ContentContainer(){
 
 
   return (
+          <div>
+          <ChatNavbar logout={logout} user={user} current_dialog={current_dialog}/>
           <div class="card-body pt-1">
              <div class="row px-lg-2 px-2">
                 <UsersDialogsContainer set_current_dialog={setCurrentDialog}
@@ -57,6 +61,7 @@ export default function ContentContainer(){
                                    msgs={msgs}
                                    setMessages={setMessages}/>
              </div>
+          </div>
           </div>
    )
 

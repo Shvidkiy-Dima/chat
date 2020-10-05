@@ -18,7 +18,7 @@ export default function SendMessage({dialog}){
     return (
             <div class="white">
             <div class="form-group basic-textarea">
-              <textarea class="form-control pl-2 my-0" style={{"font-size": '13px'}} rows="2" placeholder="Type your message here..." onChange={input.el.onChange}>{input.value}</textarea>
+              <textarea class="form-control pl-2 my-0" style={{"font-size": '13px'}} rows="2" placeholder="Type your message here..." {...input.el}></textarea>
             </div>
                       <button onClick={SendMessage} type="button" class="btn btn-sm float-right">Send</button>
           </div>
