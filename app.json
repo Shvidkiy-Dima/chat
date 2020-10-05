@@ -25,6 +25,9 @@
     },
     {
       "plan": "cloudinary:starter"
+    },
+    {
+      "plan": "heroku-postgresql:hobby-dev"
     }
   ],
   "buildpacks": [
