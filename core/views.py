@@ -29,7 +29,7 @@ class DialogViewSet(mixins.RetrieveModelMixin,
 
         another_user = UserModel.objects.get(id=request.data['user_id'])
         dialog = Dialog.objects.get_or_create_dialog(request.user, another_user)
-        dialog = DialogSerializer(dialog)
+        dialog = DialogSerializer(dialog, context={'request': self.request})
         return Response(dialog.data)
 
 
