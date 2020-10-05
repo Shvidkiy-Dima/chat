@@ -11,7 +11,7 @@ export default function SendMessage({dialog}){
                    dialog: dialog.id,
                    text: input.value}},
                (res)=>{
-               console.log(res)
+                   input.clear()
                })
 
     }
