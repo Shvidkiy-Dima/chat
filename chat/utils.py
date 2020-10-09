@@ -1,5 +1,5 @@
 from django.http.request import HttpRequest
-from urllib.parse import urlparse, uses_netloc
+
 
 class _GlobalRequest:
 

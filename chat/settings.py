@@ -92,7 +92,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'chat.wsgi.application'
 
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -187,12 +186,9 @@ SIMPLE_JWT = {
 }
 
 
-
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
 
-
-# MEDIA
 
 # STUFF
 USER_ONLINE_DELTA = timedelta(minutes=5)
@@ -216,6 +212,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [] if os.getenv('NO_BUILD') else [os.path.join(BASE_DIR, 'build', 'static')]
 WHITENOISE_USE_FINDERS = True
-
 
 django_heroku.settings(locals(), staticfiles=False, test_runner=False)

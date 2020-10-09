@@ -13,4 +13,4 @@ def message_handler(sender, instance, **kwargs):
     data = MessageSerializer(instance, context={'request': Grequest}).data
     for user in instance.dialog.users.all():
         group_name = str(user)
-        async_to_sync(layer.group_send)(group_name, {'type': 'send_msg', 'data': data })
+        async_to_sync(layer.group_send)(group_name, {'type': 'send_msg', 'data': data})

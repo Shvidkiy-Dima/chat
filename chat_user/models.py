@@ -47,4 +47,5 @@ class _UserModel:
         user_model = get_user_model()
         return getattr(user_model, item)
 
+
 UserModel = _UserModel()

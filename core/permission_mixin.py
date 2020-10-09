@@ -16,4 +16,3 @@ class BaseDinamicPermission(metaclass=BaseDinamicPermissionMetaclass):
 
     def has_permission(self, request, view):
         return self.callback(request, view) if self.callback else True
-
