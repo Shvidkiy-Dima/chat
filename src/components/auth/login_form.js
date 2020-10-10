@@ -2,7 +2,6 @@ import React from 'react'
 import {InputHook} from '../../utils/hooks'
 import axios from 'axios'
 
-
 export default function LoginForm({authorize, setUseLoginForm, login_prompt}){
 
     let name_input = InputHook('')
@@ -26,6 +25,8 @@ export default function LoginForm({authorize, setUseLoginForm, login_prompt}){
       });
 
     }
+
+
     return (
 
         <form onSubmit={DoLogin}>
@@ -49,7 +50,6 @@ export default function LoginForm({authorize, setUseLoginForm, login_prompt}){
                 </div>
                 <button type="submit" className="btn btn-sm btn-primary btn-block text-uppercase">Sing in</button>
                  <button class="btn btn-sm" onClick={()=>setUseLoginForm(false)}>Registration</button>
-
 
         {error ?
           <small id="passwordHelp" class="text-danger">
