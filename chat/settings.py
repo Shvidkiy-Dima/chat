@@ -229,4 +229,3 @@ AUTHENTICATION_BACKENDS = (
 REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://localhost:3000/'
 
 django_heroku.settings(locals(), staticfiles=False, test_runner=False)
-
