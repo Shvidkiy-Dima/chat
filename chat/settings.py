@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'communication.apps.CommunicationConfig',
 
     'corsheaders',
+    'social_django',
+    'rest_social_auth',
+
 ]
 
 MIDDLEWARE = [
@@ -212,5 +215,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [] if os.getenv('NO_BUILD') else [os.path.join(BASE_DIR, 'build', 'static')]
 WHITENOISE_USE_FINDERS = True
+
+# Social Auth
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('GITHUB_KEY', 'acc314e8f22481966b39')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('GITHUB_SECRET', '923f8c833e6e9449dff4b73de0a46f9ca765b041')
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://localhost:3000/'
 
 django_heroku.settings(locals(), staticfiles=False, test_runner=False)

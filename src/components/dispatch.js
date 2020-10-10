@@ -41,8 +41,8 @@ export default function Dispatch({ws}){
   }
 
   function logout(){
-        sessionStorage.setItem('access', '')
-        sessionStorage.setItem('refresh', '')
+        sessionStorage.removeItem('access')
+        sessionStorage.removeItem('refresh')
         authorize(false)
   }
 
@@ -60,7 +60,7 @@ export default function Dispatch({ws}){
             is_authorized ?
 
               <Main logout={logout} user={user}/>:
-              <Auth authorize={authorize}/>
+              <Auth authorize={authorize} is_auth={is_authorized} />
             )
        }
       </div>

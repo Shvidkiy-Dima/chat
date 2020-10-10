@@ -12,10 +12,12 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
+    "react-github-login": "^1.0.3",
     "react-moment": "^1.0.0",
     "react-multi-carousel": "^2.5.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-social-login-buttons": "^3.1.0",
     "react-trello": "^2.2.2"
   },
   "scripts": {
