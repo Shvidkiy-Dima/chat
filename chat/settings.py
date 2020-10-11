@@ -228,4 +228,35 @@ AUTHENTICATION_BACKENDS = (
 
 REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://localhost:3000/'
 
-django_heroku.settings(locals(), staticfiles=False, test_runner=False)
+
+# Celery
+
+CELERY_BROKER_HOST = os.environ.get('CELERY_BROKER', 'localhost')
+CELERY_BROKER_URL = os.getenv('CLOUDAMQP_URL', f'pyamqp://guest@{CELERY_BROKER_HOST}//')
+CELERY_BEAT_SCHEDULE = {
+    'delete_inactive_dialogs': {
+        'task': 'core.tasks.delete_inactive_dialogs',
+        'schedule': ((60*60)*24)*int(os.getenv('DIALOGS_DELETE_AFTER', 7)),
+    },
+}
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'base': {
+            'handlers': ['console'],
+            'level':  'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+django_heroku.settings(locals(), staticfiles=False, test_runner=False, logging=False)
